@@ -14,9 +14,18 @@ public class Deck {
         suitlist.add(" of Spades");
         suitlist.add(" of Diamonds");
         suitlist.add(" of Clubs");
+        List<String> facecards = new ArrayList<>();
+        facecards.add("Jack");
+        facecards.add("Queen");
+        facecards.add("King");
+        facecards.add("Ace");
         for (String suit:suitlist) {
-            for (int z = 1; z < 14; z++) {
+            for (int z = 2; z < 11; z++) {
                 Card card = new Card(z, z + suit);
+                cards.add(card);
+            }
+            for (String face:facecards){
+                Card card = new Card(10,face + suit);
                 cards.add(card);
             }
         }
@@ -26,7 +35,9 @@ public class Deck {
     }
 
     public Card drawRandomCard(){
-        return cards.get(rand.nextInt(cards.size()));
+        Card card = cards.get(rand.nextInt(cards.size()));
+        cards.remove(card);
+        return card;
     }
 }
 

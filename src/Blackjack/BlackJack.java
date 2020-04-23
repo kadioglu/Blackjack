@@ -24,8 +24,11 @@ public class BlackJack {
         System.out.println("Your next card is the " + card2.getName());
         System.out.println("Your current total is " + runningtotal + ". Would you like to hit or stay? (1 to hit, 2 to stay)");
         int response = scanner.nextInt();
+
         if (response==1){
-        System.out.println("They pressed 1");
+           Card card3 = mydeck.drawRandomCard();
+        System.out.println("Your next card is the " + card3.getName());
+        System.out.println("Your current total is " + runningtotal + ". Would you like to hit or stay? (1 to hit, 2 to stay)");
     }
         else if (response==2){
         System.out.println("Your final total is " + runningtotal + ".  Now it's the dealer's turn!");
