@@ -37,8 +37,14 @@ public class BlackJack {
         int response = scanner.nextInt();
 
         while(response == 1){
-            hit(mydeck);
-            response = scanner.nextInt();
+            hit(mydeck, playersCards);
+            if(bust()){
+                System.exit(0);
+            }
+            else {
+                System.out.println("Your current total is " + runningtotal + ". Would you like to hit or stay? (1 to hit, 2 to stay)");
+                response = scanner.nextInt();
+            }
         }
         if (response==2){
             System.out.println("Your final total is " + runningtotal + ".  Now it's the dealer's turn!");
@@ -54,19 +60,29 @@ public class BlackJack {
         newgame.runGame();
     }
 
-    private void hit(Deck mydeck){
+    private void hit(Deck mydeck, ArrayList<Card> list){
             Card card = mydeck.drawRandomCard();
             System.out.println("Your next card is the " + card.getName());
-            playersCards.add(card);
+            list.add(card);
             int n = 0;
-            for(Card cardd: playersCards){
+            for(Card cardd: list){
                 n += cardd.getNumber();
             }
             runningtotal+=card.getNumber();
-            System.out.println("Your current total is " + n + ". Would you like to hit or stay? (1 to hit, 2 to stay)");
 
+    }
+
+    private boolean bust(){
+        if(runningtotal >21){
+            System.out.println("Your final total is " + runningtotal + ". You lose :(");
+            return true;
+        }
+        else {
+            return false;
         }
     }
+
+}
 
 
 
