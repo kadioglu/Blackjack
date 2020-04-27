@@ -62,7 +62,6 @@ public class BlackJack {
 
         }
 
-//        System.out.println()
         System.out.println("Your total is " + getTotal(playersCards) + ". The dealer's total is " + getTotal(dealerCards) + ".");
         if (getTotal(dealerCards)>= getTotal(playersCards)){
              System.out.println("The dealer wins!");
@@ -88,6 +87,17 @@ public class BlackJack {
         for (Card card:list){
             runningTotal += card.getNumber();
         }
+        if (runningTotal > 21){
+            runningTotal =0;
+            for (Card card: list){
+                if (card.getNumber()==11){
+                    card.setNumber(1);
+                    System.out.println("Ace's value has changed to 1 to prevent going over 21.");
+                }
+                runningTotal += card.getNumber();
+            }
+//            if (list.contains(card.))
+        }
         return runningTotal;
     }
 
@@ -104,7 +114,7 @@ public class BlackJack {
 
     private boolean bust(ArrayList<Card> list, String who){
         if(getTotal(list) >21){
-            System.out.println(who + "'s " + "final total is " + getTotal(list) + "." + who + " loses");
+            System.out.println(who + "'s " + "final total is " + getTotal(list) + ". " + who + " loses!");
             return true;
         }
         else {

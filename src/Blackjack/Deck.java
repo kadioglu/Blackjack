@@ -18,7 +18,6 @@ public class Deck {
         facecards.add("Jack");
         facecards.add("Queen");
         facecards.add("King");
-        facecards.add("Ace");
         for (String suit:suitlist) {
             for (int z = 2; z < 11; z++) {
                 Card card = new Card(z, z + suit);
@@ -28,6 +27,8 @@ public class Deck {
                 Card card = new Card(10,face + suit);
                 cards.add(card);
             }
+            Card card = new Card(11, "Ace" + suit);
+            cards.add(card);
         }
     }
     public List<Card> getCards(){
