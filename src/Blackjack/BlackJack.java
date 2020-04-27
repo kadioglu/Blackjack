@@ -28,24 +28,14 @@ public class BlackJack {
         addToHand(dealerCards, mydeck);
         addToHand(dealerCards, mydeck);
 
-//        Card card1 = mydeck.drawRandomCard();
-//        Card card2 = mydeck.drawRandomCard();
-//        runningtotal += card1.getNumber();
-//        runningtotal+=card2.getNumber();
-
-//        playersCards.add(card1);
-//        playersCards.add(card2);
-
-//        dealerCards.add
-
-        System.out.println("Your first card is the " + playersCards.get(0).getName());
-        System.out.println("Your next card is the " + playersCards.get(1).getName());
+        initialHandMessage("Your", playersCards);
         System.out.println("Your current total is " + getTotal(playersCards) + ". Would you like to hit or stay? (1 to hit, 2 to stay)");
         int response = scanner.nextInt();
 
         while(response == 1){
-            hit(mydeck, playersCards);
-            if(bust(playersCards)){
+            hit(mydeck, playersCards, "Player's");
+//            System.out.println("Your next card is the " + card.getName());
+            if(bust(playersCards, "Player")){
                 System.exit(0);
             }
             else {
@@ -60,13 +50,37 @@ public class BlackJack {
             System.out.println("Not a valid response!  Would you like to hit or stay? (1 to hit, 2 to stay)");
             scanner.nextInt();
         }
+
+//        Dealer's turn
+        initialHandMessage("Dealer's", dealerCards);
+        while (getTotal(dealerCards)<16){
+            hit(mydeck, dealerCards, "Dealer's");
+            if (bust(dealerCards, "Dealer")){
+                System.out.println("Dealer has busted. You win!");
+                System.exit(0);
+            }
+
+        }
+
+//        System.out.println()
+        System.out.println("Your total is " + getTotal(playersCards) + ". The dealer's total is " + getTotal(dealerCards) + ".");
+        if (getTotal(dealerCards)>= getTotal(playersCards)){
+             System.out.println("The dealer wins!");
+        }
+        else{
+            System.out.println("You win!");
+        }
+        System.exit(0);
+    }
+
+    public void initialHandMessage(String who, ArrayList<Card> list){
+        System.out.println(who + " first card is the " + list.get(0).getName());
+        System.out.println(who + " next card is the " + list.get(1).getName());
     }
 
     public void addToHand(ArrayList<Card> hand, Deck deck){
         Card card = deck.drawRandomCard();
-//        runningTotal += card.getNumber();
         hand.add(card);
-//        return runningTotal;
     }
 
     public int getTotal(ArrayList<Card> list){
@@ -82,17 +96,15 @@ public class BlackJack {
         newgame.runGame();
     }
 
-    private void hit(Deck mydeck, ArrayList<Card> list){
+    private void hit(Deck mydeck, ArrayList<Card> list, String who){
             Card card = mydeck.drawRandomCard();
-            System.out.println("Your next card is the " + card.getName());
+            System.out.println(who + " next card is the " + card.getName());
             list.add(card);
-//            getTotal(list)+=card.getNumber();
-
     }
 
-    private boolean bust(ArrayList<Card> list){
+    private boolean bust(ArrayList<Card> list, String who){
         if(getTotal(list) >21){
-            System.out.println("Your final total is " + getTotal(list) + ". You lose :(");
+            System.out.println(who + "'s " + "final total is " + getTotal(list) + "." + who + " loses");
             return true;
         }
         else {
