@@ -5,17 +5,31 @@ import comp127graphics.Line;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * The game Blackjack
+ *
+ * By James, Mia, and Katelyn
+ */
+
 public class BlackJack {
     Scanner scanner;
 
     ArrayList<Card> playersCards;
     ArrayList<Card> dealerCards;
 
+    /**
+     * creates the list of cards that is the player's hand, and the list of cards that is the dealer's hand
+     */
     public BlackJack() {
         playersCards = new ArrayList<>();
         dealerCards = new ArrayList<>();
     }
 
+    /**
+     * sets up the game, plays through the player's turn and the dealer's turn
+     *
+     * need to refactor later
+     */
     private void runGame(){
         Deck mydeck = new Deck();
         Scanner scanner = new Scanner(System.in);
@@ -72,16 +86,26 @@ public class BlackJack {
         System.exit(0);
     }
 
+    /**
+     * prints the first and second card values and suits of a hand
+     */
     public void initialHandMessage(String who, ArrayList<Card> list){
         System.out.println(who + " first card is the " + list.get(0).getName());
         System.out.println(who + " next card is the " + list.get(1).getName());
     }
 
+    /**
+     * adds a random card from the deck to a hand (a list of cards)
+     */
     public void addToHand(ArrayList<Card> hand, Deck deck){
         Card card = deck.drawRandomCard();
         hand.add(card);
     }
 
+    /**
+     * returns the sum of all the values of the cards in the given list
+     * also changes the value of the Ace card from 11 to one to prevent busting
+     */
     public int getTotal(ArrayList<Card> list){
         int runningTotal = 0;
         for (Card card:list){
@@ -101,17 +125,28 @@ public class BlackJack {
         return runningTotal;
     }
 
+    /**
+     * Creates the game BlackJack and calls runGame method
+     */
     public static void main(String[]args) {
         BlackJack newgame = new BlackJack();
         newgame.runGame();
     }
 
+    /**
+     * draws a random card from the deck and adds it
+     */
     private void hit(Deck mydeck, ArrayList<Card> list, String who){
             Card card = mydeck.drawRandomCard();
             System.out.println(who + " next card is the " + card.getName());
             list.add(card);
     }
 
+    /**
+     * returns true if the sum of all the cards in the given hand (a list of cards) is greater than 21, meaning the
+     * hand's owner has busted
+     * if not, returns false
+     */
     private boolean bust(ArrayList<Card> list, String who){
         if(getTotal(list) >21){
             System.out.println(who + "'s " + "final total is " + getTotal(list) + ". " + who + " loses!");
