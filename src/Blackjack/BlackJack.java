@@ -1,10 +1,7 @@
 package Blackjack;
-import comp127graphics.CanvasWindow;
-import comp127graphics.GraphicsText;
-import comp127graphics.Line;
-import comp127graphics.Rectangle;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -20,6 +17,8 @@ public class BlackJack {
 
     ArrayList<Card> playersCards;
     ArrayList<Card> dealerCards;
+    Deck deck;
+    int response;
 
     /**
      * creates the list of cards that is the player's hand, and the list of cards that is the dealer's hand
@@ -27,40 +26,46 @@ public class BlackJack {
     public BlackJack() {
         playersCards = new ArrayList<>();
         dealerCards = new ArrayList<>();
+        deck = new Deck();
+        response = 1;
     }
 
     /**
      * sets up the game, plays through the player's turn and the dealer's turn
      *
-     * need to refactor later
+     *
      */
     private void runGame(){
-        Deck mydeck = new Deck();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Here are your first 2 cards:");
 
-        addToHand(playersCards, mydeck);
-        addToHand(playersCards, mydeck);
+        addToHand(playersCards, deck);
+        addToHand(playersCards, deck);
 
-        addToHand(dealerCards, mydeck);
-        addToHand(dealerCards, mydeck);
+        addToHand(dealerCards, deck);
+        addToHand(dealerCards, deck);
 
         initialHandMessage("Your", playersCards);
-        System.out.println("Your current total is " + getTotal(playersCards) + ". Would you like to hit or stay? (1 to hit, 2 to stay)");
-        int response = scanner.nextInt();
 
+        System.out.println("Your current total is " + getTotal(playersCards) + ". Would you like to hit or stay? (1 to hit, 2 to stay)");
+        playersTurn(deck,scanner.nextInt(), scanner);
+        dealersTurn(deck);
+    }
+
+    public void playersTurn (Deck deck, int response, Scanner scanner){
         while(response == 1){
-            hit(mydeck, playersCards, "Player's");
-//            System.out.println("Your next card is the " + card.getName());
+            hit(deck, playersCards, "Player");
+
             if(bust(playersCards, "Player")){
-                System.exit(0);
+               playAgainMessage(deck);
             }
             else {
                 System.out.println("Your current total is " + getTotal(playersCards) + ". Would you like to hit or stay? (1 to hit, 2 to stay)");
-                response = scanner.nextInt();
+                    response = scanner.nextInt();
+                }
             }
-        }
+
         if (response==2){
             System.out.println("Your final total is " + getTotal(playersCards) + ".  Now it's the dealer's turn!");
         }
@@ -69,25 +74,47 @@ public class BlackJack {
             scanner.nextInt();
         }
 
-//        Dealer's turn
+    }
+    public void dealersTurn(Deck deck){
         initialHandMessage("Dealer's", dealerCards);
         while (getTotal(dealerCards)<16){
-            hit(mydeck, dealerCards, "Dealer's");
+            hit(deck, dealerCards, "Dealer's");
             if (bust(dealerCards, "Dealer")){
                 System.out.println("Dealer has busted. You win!");
-                System.exit(0);
+
             }
-
         }
-
         System.out.println("Your total is " + getTotal(playersCards) + ". The dealer's total is " + getTotal(dealerCards) + ".");
         if (getTotal(dealerCards)>= getTotal(playersCards)){
-             System.out.println("The dealer wins!");
+            System.out.println("The dealer wins!");
         }
         else{
             System.out.println("You win!");
         }
-        System.exit(0);
+        playAgainMessage(deck);
+    }
+
+    /** Prompts the user if they would like to play the game again, and responds accordingly - exits the program if needed,
+     * deals another hand with the same deck if possible, and reshuffles the deck if it is approaching empty
+     *
+     */
+    public void playAgainMessage(Deck deck){
+        playersCards.removeAll(playersCards);
+        dealerCards.removeAll(dealerCards);
+        System.out.println("Press 1 to play again, or any other key to exit");
+        Scanner scanner = new Scanner(System.in);
+        int response = scanner.nextInt();
+        if(response==1){
+            if (deck.isEmpty()) {
+                System.out.println("Reshuffling deck so there are enough remaining cards to play");
+                Deck newdeck = new Deck();
+                this.deck = newdeck;
+            }
+        runGame();
+        }
+        else{
+            System.exit(0);
+        }
     }
 
     /**
@@ -109,6 +136,8 @@ public class BlackJack {
     /**
      * returns the sum of all the values of the cards in the given list
      * also changes the value of the Ace card from 11 to one to prevent busting
+     *
+     * TODO fix bug with 2 aces both being turned to 1 when 1 should be 11 and the other 1
      */
     public int getTotal(ArrayList<Card> list){
         int runningTotal = 0;
@@ -127,14 +156,6 @@ public class BlackJack {
 //            if (list.contains(card.))
         }
         return runningTotal;
-    }
-
-    /**
-     * Creates the game BlackJack and calls runGame method
-     */
-    public static void main(String[]args) {
-        BlackJack newgame = new BlackJack();
-        newgame.runGame();
     }
 
     /**
@@ -161,8 +182,16 @@ public class BlackJack {
         }
     }
 
-}
+    /**
+     * Creates the game BlackJack and calls runGame method
+     */
+    public static void main(String[]args) {
+        BlackJack newgame = new BlackJack();
+        newgame.runGame();
+    }
 
+
+}
 
 
 

@@ -52,5 +52,15 @@ public class Deck {
         cards.remove(card);
         return card;
     }
+
+    /**
+     *  returns false if there are not enough cards remaining in the deck for both the player and the dealer to play a full hand
+     */
+    public boolean isEmpty(){
+        if(cards.size() >= 20){
+            return false;
+        }
+        return true;
+    }
 }
 
