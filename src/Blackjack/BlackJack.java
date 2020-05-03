@@ -10,7 +10,7 @@ import java.util.Scanner;
  *
  * By James, Mia, and Katelyn
  *
- * Test
+ * test
  */
 
 public class BlackJack {
