@@ -1,6 +1,8 @@
 package Blackjack;
 import comp127graphics.CanvasWindow;
+import comp127graphics.GraphicsText;
 import comp127graphics.Line;
+import comp127graphics.Rectangle;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -14,7 +16,7 @@ import java.util.Scanner;
  */
 
 public class BlackJack {
-    Scanner scanner;
+    private Scanner scanner;
 
     ArrayList<Card> playersCards;
     ArrayList<Card> dealerCards;
