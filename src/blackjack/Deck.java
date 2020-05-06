@@ -1,4 +1,4 @@
-package Blackjack;
+package blackjack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,7 @@ public class Deck {
     private Random rand = new Random();
 
     /**
-     * assigns each card in the deck to a number/face card and a suit
+     * Constructor for the Deck class; assigns each card in the deck to a number/face card and a suit
      */
     public Deck() {
         List<String> suitlist = new ArrayList<>();
@@ -39,6 +39,7 @@ public class Deck {
             Card card = new Card(11, "Ace" + suit);
             cards.add(card);
         }
+
     }
     public List<Card> getCards(){
         return cards;

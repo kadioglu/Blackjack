@@ -1,7 +1,6 @@
-package Blackjack;
+package blackjack;
 
 import java.util.ArrayList;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 /**
@@ -9,30 +8,27 @@ import java.util.Scanner;
  *
  * By James, Mia, and Katelyn
  *
- * test
  */
 
 public class BlackJack {
-    private Scanner scanner;
 
-    ArrayList<Card> playersCards;
-    ArrayList<Card> dealerCards;
-    Deck deck;
-    int response;
+    private ArrayList<Card> playersCards;
+    private ArrayList<Card> dealerCards;
+    private Deck deck;
+
 
     /**
-     * creates the list of cards that is the player's hand, and the list of cards that is the dealer's hand
+     * Constructor for the BlackJack class; creates the list of cards that is the player's hand, and the list of cards that is the dealer's hand
      */
     public BlackJack() {
         playersCards = new ArrayList<>();
         dealerCards = new ArrayList<>();
         deck = new Deck();
-        response = 1;
+
     }
 
     /**
-     * sets up the game, plays through the player's turn and the dealer's turn
-     *
+     * Sets up the game, plays through the player's turn and the dealer's turn
      *
      */
     private void runGame(){
@@ -53,6 +49,9 @@ public class BlackJack {
         dealersTurn(deck);
     }
 
+    /**
+     * Plays out the player's turn, telling the player what cards they drew and responding accordingly to how the player wants to play their hand
+     */
     public void playersTurn (Deck deck, int response, Scanner scanner){
         while(response == 1){
             hit(deck, playersCards, "Player");
@@ -73,7 +72,6 @@ public class BlackJack {
             System.out.println("Not a valid response!  Would you like to hit or stay? (1 to hit, 2 to stay)");
             scanner.nextInt();
         }
-
     }
     public void dealersTurn(Deck deck){
         initialHandMessage("Dealer's", dealerCards);
@@ -94,9 +92,9 @@ public class BlackJack {
         playAgainMessage(deck);
     }
 
-    /** Prompts the user if they would like to play the game again, and responds accordingly - exits the program if needed,
+    /**
+     * Prompts the user if they would like to play the game again, and responds accordingly - exits the program if needed,
      * deals another hand with the same deck if possible, and reshuffles the deck if it is approaching empty
-     *
      */
     public void playAgainMessage(Deck deck){
         playersCards.removeAll(playersCards);
@@ -118,7 +116,7 @@ public class BlackJack {
     }
 
     /**
-     * prints the first and second card values and suits of a hand
+     * Prints the first and second card values and suits of a hand
      */
     public void initialHandMessage(String who, ArrayList<Card> list){
         System.out.println(who + " first card is the " + list.get(0).getName());
@@ -126,7 +124,7 @@ public class BlackJack {
     }
 
     /**
-     * adds a random card from the deck to a hand (a list of cards)
+     * Adds a random card from the deck to a hand (a list of cards)
      */
     public void addToHand(ArrayList<Card> hand, Deck deck){
         Card card = deck.drawRandomCard();
@@ -134,10 +132,9 @@ public class BlackJack {
     }
 
     /**
-     * returns the sum of all the values of the cards in the given list
+     * Returns the sum of all the values of the cards in the given list
      * also changes the value of the Ace card from 11 to one to prevent busting
      *
-     * TODO fix bug with 2 aces both being turned to 1 when 1 should be 11 and the other 1
      */
     public int getTotal(ArrayList<Card> list){
         int runningTotal = 0;
@@ -159,16 +156,16 @@ public class BlackJack {
     }
 
     /**
-     * draws a random card from the deck and adds it
+     * Draws a random card from the deck and adds it to that person's hand
      */
-    private void hit(Deck mydeck, ArrayList<Card> list, String who){
-            Card card = mydeck.drawRandomCard();
+    private void hit(Deck deck, ArrayList<Card> hand, String who){
+            Card card = deck.drawRandomCard();
             System.out.println(who + " next card is the " + card.getName());
-            list.add(card);
+            hand.add(card);
     }
 
     /**
-     * returns true if the sum of all the cards in the given hand (a list of cards) is greater than 21, meaning the
+     * Returns true if the sum of all the cards in the given hand (a list of cards) is greater than 21, meaning the
      * hand's owner has busted
      * if not, returns false
      */

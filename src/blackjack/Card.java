@@ -1,4 +1,4 @@
-package Blackjack;
+package blackjack;
 
 /**
  * This class creates a card object with a name and number
