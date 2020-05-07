@@ -80,8 +80,7 @@ public class BlackJack {
         }
         else{
             System.out.println("Not a valid response!  Would you like to hit or stay? (1 to hit, 2 to stay)");
-            int altResponse = scanner.nextInt();
-            playersTurn(deck, altResponse, scanner);
+            playersTurn(deck, scanner.nextInt(), scanner);
         }
     }
 
