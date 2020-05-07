@@ -41,9 +41,6 @@ public class Deck {
         }
 
     }
-    public List<Card> getCards(){
-        return cards;
-    }
 
     /**
      * returns a random card object from the list cards, and removes it from the list
